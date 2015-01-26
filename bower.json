@@ -1,0 +1,27 @@
+{
+  "name": "smartographer",
+  "version": "0.0.0",
+  "homepage": "https://github.com/grantbot/smartographer",
+  "authors": [
+    "Grant Wu <grantwu2@gmail.com>"
+  ],
+  "description": "See where Google thinks you've been",
+  "main": "server.py",
+  "keywords": [
+    "leaflet",
+    "flask",
+    "locationdata"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "togeojson": "~0.10.1"
+  }
+}
