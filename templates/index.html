@@ -3,12 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Test!</title>
-<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
 
 </head>
 
 <body>
-Content of the document......
+   <div id="map"></div>
 </body>
 
+<script src="{{ url_for('static', filename='app.js') }}"></script>
 </html>
