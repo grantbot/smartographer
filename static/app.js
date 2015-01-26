@@ -43,6 +43,7 @@ function geoJson2heat(geojson, intensity) {
     eastMost = eastMost || lng;
     westMost = westMost || lng;
 
+    if (lat > northMost) { northMost = lat; }
     if (lat < southMost) { southMost = lat; }
     if (lng > westMost) { westMost = lng; }
     if (lng < eastMost) { eastMost = lng; }
