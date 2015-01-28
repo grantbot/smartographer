@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  font-family: 'Trebuchet MS', 'Helvetica Neue';
 }
 #map { 
   position: absolute;
@@ -9,16 +10,52 @@ body {
   left: 0;
   z-index: 0;
 }
-#drop {
-  opacity:    0.6; 
-  background: gray; 
+#container {
   width:      100%;
   height:     100%; 
-  z-index:    1;
   top:        0; 
   left:       0; 
-  position:   fixed; 
+  z-index: 1;
+  background-color: black; 
+  opacity:    0.5; 
+  position: fixed;
 }
-#infoBox {
+#takeoutLink {
+  display: block;
+  font-size: 4em;
+  text-align: center;
+  top: 35%;
   z-index: 2; 
+  background-color: black;
+  width: 50%;
+  margin: 0 auto;
+  color: #A1FF9E;
+  position:relative;
+  text-decoration: none;
+}
+#takeoutInfo {
+  font-size: 0.3em;
+}
+#takeoutInfoSmall {
+  font-size: 0.2em;
+}
+#dragPrompt {
+  color: #A1FF9E;
+  display: block;
+  font-size: 4em;
+  text-align: center;
+  top: 35%;
+  z-index: 2; 
+  background-color: black;
+  width: 50%;
+  margin: 0 auto;
+  position:relative;
+  text-decoration: none;
+  display: none;
+}
+#dragPromptSmall {
+  font-size: 0.5em;
+}
+#dragPromptTiny {
+  font-size: 0.2em;
 }

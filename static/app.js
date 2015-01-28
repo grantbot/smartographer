@@ -1,3 +1,9 @@
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('takeoutLink').onclick = function () {
+    this.style.display = 'none';
+    document.getElementById('dragPrompt').style.display = 'block';
+  }
+}, false);
 var map = L.map('map').setView([0,0], 2);
 
 L.tileLayer('http://{s}.tiles.mapbox.com/v3/grantbot.kjfg3cap/{z}/{x}/{y}.png', {
@@ -23,10 +29,10 @@ function renderGeoJson (kml) {
   var heat = L.heatLayer(
       geoHeat, {
         minOpacity: 0.5,
-        radius: 7,
-        blur: 8, 
+        radius: 9,
+        blur: 9, 
         maxZoom: 17,
-        gradient: {0.2: 'lime', 0.65: 'yellow', 1: 'red'},
+        gradient: {0.2: 'lime', 0.7: 'yellow', 1: 'red'},
       }).addTo(map);
 }
 

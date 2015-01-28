@@ -1,7 +1,7 @@
   if (typeof window.FileReader === undefined) {
     alert('Your browser does not support drag and drop');
   } else {
-    var drop = document.getElementById('drop');
+    var drop = document.getElementById('container');
 
     var reader = new FileReader();
     reader.onloadstart = function ( e ) {

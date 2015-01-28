@@ -11,9 +11,22 @@
 </head>
 
 <body>
-  <div id="drop"></div>
+<div id="container">
+   <a href="https://maps.google.com/locationhistory/kml?startTime=0&endTime=9000000000000" target="_blank" id="takeoutLink">CLICK HERE
+     <div id="takeoutInfo">to download your location history from google</div>
+   </a>
+   <div id="dragPrompt">
+     NOW DRAG IT HERE
+     <div id="dragPromptTiny">
+       *your data will NOT be sent anywhere. this app will not make any
+       more server requests. closing this tab will destroy your browser's
+       copy of whatever you put in here. <br><br> if you were 'unable to
+       fetch' your history, your account has 'location history'
+       turned off. check your settings. <br>or leave them be. 
+    </div>
+   </div>
+</div>
    <div id="map"></div>
-   <!--<a href="https://maps.google.com/locationhistory/kml?startTime=0&endTime=9000000000000" target="_blank">Click Here</a>-->
 </body>
 
 <script src="{{ url_for('static', filename='bower_components/togeojson/togeojson.js') }}"></script>
