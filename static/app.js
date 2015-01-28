@@ -1,5 +1,4 @@
-var latlng = L.latLng(37.7833, -122.4167);
-var map = L.map('map').setView(latlng, 13);
+var map = L.map('map').setView([0,0], 2);
 
 L.tileLayer('http://{s}.tiles.mapbox.com/v3/grantbot.kjfg3cap/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -11,27 +10,25 @@ var eastMost;
 var southMost;
 var westMost;
 
-var geoJson;
-$.ajax('static/history-12-31-1969.kml').done(function(kml) {
-  geoJson = toGeoJSON.kml(kml);
-  console.log(geoJson.features[0]);
+function renderGeoJson (kml) {
+  var geoJson = toGeoJSON.kml(kml);
   geoHeat = geoJson2heat(geoJson, 2);
 
   var southWest = L.latLng(southMost, westMost);
   var northEast = L.latLng(northMost, eastMost);
   var bounds = L.latLngBounds(southWest, northEast);
 
-  map.fitBounds(bounds);
+  map.fitBounds(bounds,{padding: L.point(30, 30)});
 
   var heat = L.heatLayer(
       geoHeat, {
         minOpacity: 0.5,
-        radius: 10,
-        blur: 1, 
+        radius: 7,
+        blur: 8, 
         maxZoom: 17,
-        gradient: {0.4: 'blue', 0.65: 'lime', 1: 'red'},
+        gradient: {0.2: 'lime', 0.65: 'yellow', 1: 'red'},
       }).addTo(map);
-});
+}
 
 function geoJson2heat(geojson, intensity) {
   return geojson.features[0].geometry.coordinates.map(function(feature) {
