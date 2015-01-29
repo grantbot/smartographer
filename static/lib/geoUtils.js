@@ -1,5 +1,4 @@
-var fitToBounds = function (heatMapData, mapObj) {
-  //Get the map bounds
+var getBounds = function (heatMapData) {
   var southWestCorner = L.latLng(
       heatMapData.boundsData.southMost, 
       heatMapData.boundsData.westMost
@@ -9,24 +8,20 @@ var fitToBounds = function (heatMapData, mapObj) {
       heatMapData.boundsData.eastMost
       );
 
-  var bounds = L.latLngBounds(southWestCorner, northEastCorner);
-
-  mapObj.fitBounds(bounds, {padding: L.point(30, 30)});
+  return L.latLngBounds(southWestCorner, northEastCorner);
 };
 
-var renderHeatLayer = function (heatMapData, mapObj) {
-  //Render heat layer onto the existing map
-  var heat = L.heatLayer(
-        heatMapData.coordinates, 
-        {
-          minOpacity: 0.5,
-          radius: 9,
-          blur: 9, 
-          maxZoom: 17,
-          gradient: {0.2: 'lime', 0.7: 'yellow', 1: 'red'},
-        }
-      )
-      .addTo(mapObj);
+var genHeatLayer = function (heatMapData) {
+  return L.heatLayer(
+            heatMapData.coordinates, 
+            {
+              minOpacity: 0.5,
+              radius: 9,
+              blur: 9, 
+              maxZoom: 17,
+              gradient: {0.2: 'lime', 0.7: 'yellow', 1: 'red'},
+            }
+          );
 };
 
 //Convert a geoJson object to heat-map friendly format, and find the map bounds
@@ -68,7 +63,7 @@ var geoJsonToHeat = function (geoJson, intensity) {
 };
 
 module.exports = {
-  fitToBounds: fitToBounds,
-  renderHeatLayer: renderHeatLayer,
+  getBounds: getBounds,
+  genHeatLayer: genHeatLayer,
   geoJsonToHeat: geoJsonToHeat
-}
+};

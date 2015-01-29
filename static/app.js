@@ -3,7 +3,7 @@ var geo = require('./lib/geoUtils');
 document.addEventListener('DOMContentLoaded', function() {
   //Check if we can drag files in
   if (typeof window.FileReader === undefined) {
-    alert('Please upgrade your browser before using this app.')
+    alert('Please upgrade your browser before using this app.');
   }
 
   //Initialize the map
@@ -17,74 +17,77 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       ).addTo(map);
 
+  //Grab the loader element so we can toggle it
+  var loader = document.getElementById('loader');
+
   //Initialize the file reader and its listeners
   var reader = new FileReader();
 
   reader.onloadstart = function (e) {
-    document.getElementById('loader').style.display = 'block';
+    loader.style.display = 'block';
   };
 
   reader.onload = function (e) {
-    var parser = new window.DOMParser();
-    var kml = parser.parseFromString(e.target.result, "text/xml");
+    try {
+      var parser = new window.DOMParser();
+      var kml = parser.parseFromString(e.target.result, "text/xml");
 
-    var geoJson = toGeoJSON.kml(kml);
-    var heatMapData = geo.geoJsonToHeat(geoJson, 2);
+      var geoJson = toGeoJSON.kml(kml);
+      var heatMapData = geo.geoJsonToHeat(geoJson, 2);
 
-    geo.fitToBounds(heatMapData, map);
-    geo.renderHeatLayer(heatMapData, map);
+      map.fitBounds(geo.getBounds(heatMapData), {padding: L.point(30, 30)});
+      geo.genHeatLayer(heatMapData).addTo(map);
 
-    drop.style.display = 'none';
+      //Hide overlay and expose the map
+      drop.style.display = 'none';
+
+    } catch (error) {
+      loader.style.display = 'none';
+      console.log('ERROR', error);
+      alert('Something went wrong. The filename should be something like "history-12-31-1969.kml". Did you use the right one?');
+    }
   };
 
-  //Set up dropzone event listeners
-  var drop = document.getElementById('container');
-  drop.addEventListener('dragover', handleDragOver);
-  drop.addEventListener('drop', handleDrop);
-  drop.addEventListener('dragenter');
-
-  //Set up DOM event listeners
-  //Replace download link with drag prompt after user clicks it
-  document.getElementById('takeoutLink').onclick = function () {
-    this.style.display = 'none';
-    document.getElementById('dragPrompt').style.display = 'block';
-  };
-
-
-  function handleDrop(event) {
+  /* Set up DOM event listeners */
+  //Define handler functions
+  var handleDrop = function (event) {
     event.preventDefault();
     var rawFile = event.dataTransfer.files[0];
     var fileName = rawFile.name;
 
     if (fileName.slice(fileName.length-3, fileName.length) === "kml") {
-      try {
-        reader.readAsText(rawFile); 
-      } catch (error) {
-        document.getElementById('loader').style.display = 'none';
-        alert('Something went wrong. The filename should be something like "history-12-31-1969.kml". Did you use the right one?');
-      }
+      reader.readAsText(rawFile); 
     } else {
-      document.getElementById('loader').style.display = 'none';
+      loader.style.display = 'none';
       alert('You dragged the wrong file. This app only supports files that end with ".kml"');
     }
-  }
-
-  //This is necessary for our drop function to work correctly
-  function handleDragOver(event) {
+  };
+  //This is necessary for our drop function to work correctly. Come on, HTML5.
+  //Really?
+  var handleDragOver = function (event) {
     if (event.originalEvent) {
       event = event.originalEvent;
     }
-
     if (!event.dataTransfer) {
       return;
     }
-
     var b = event.dataTransfer.effectAllowed;
 
     event.dataTransfer.dropEffect = ('move' === b || 'linkMove' === b) ? 'move' : 'copy';
     event.stopPropagation();
     event.preventDefault();
-  }
+  };
+  
+  //Attach dropzone event handlers
+  var drop = document.getElementById('container');
+  drop.addEventListener('dragover', handleDragOver);
+  drop.addEventListener('drop', handleDrop);
 
-
+  //Set up click handler for download link
+  document.getElementById('takeoutLink').onclick = function () {
+    //Hide download link
+    this.style.display = 'none';
+    //Show drag and drop prompt
+    document.getElementById('dragPrompt').style.display = 'block';
+  };
 }, false);
