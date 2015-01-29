@@ -1,4 +1,5 @@
 var geo = require('./lib/geoUtils');
+
 document.addEventListener('DOMContentLoaded', function() {
   //Check if we can drag files in
   if (typeof window.FileReader === undefined) {
