@@ -24,6 +24,7 @@ var genHeatLayer = function (heatMapData) {
           gradient: {0.2: 'lime', 0.7: 'yellow', 1: 'red'},
         }
       );
+
   return heatLayer;
 };
 

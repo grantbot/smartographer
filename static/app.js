@@ -20,12 +20,11 @@ document.addEventListener('DOMContentLoaded', function() {
   //Grab the loader element so we can toggle it
   var loader = document.getElementById('loader');
 
-  //Initialize the file reader and its listeners
+  /* Initialize the file reader and its listeners */
   var reader = new FileReader();
 
-  //Show spinner
   reader.onloadstart = function (e) {
-    loader.style.display = 'block';
+    loader.style.display = 'block'; //Show spinner
   };
 
   //Do the thing
@@ -55,8 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   };
 
-  /* Set up DOM event listeners */
-  //Define handler functions
+  /* Define DOM event handler functions */
+  //Handle file drag-and-drop
   var handleDrop = function (event) {
     event.preventDefault();
     //Grab the file
@@ -87,12 +86,12 @@ document.addEventListener('DOMContentLoaded', function() {
     event.preventDefault();
   };
   
-  //Attach dropzone event handlers
+  /* Attach event handler functions */
   var drop = document.getElementById('container');
   drop.addEventListener('dragover', handleDragOver);
   drop.addEventListener('drop', handleDrop);
 
-  //Set up click handler for download link
+  //Click handler for download link
   document.getElementById('takeoutLink').onclick = function () {
     //Hide download link
     this.style.display = 'none';
