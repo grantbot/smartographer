@@ -23,25 +23,32 @@ document.addEventListener('DOMContentLoaded', function() {
   //Initialize the file reader and its listeners
   var reader = new FileReader();
 
+  //Show spinner
   reader.onloadstart = function (e) {
     loader.style.display = 'block';
   };
 
+  //Do the thing
   reader.onload = function (e) {
     try {
+      //Parse the user's file
       var parser = new window.DOMParser();
       var kml = parser.parseFromString(e.target.result, "text/xml");
 
+      //Convert it to geoJSON
       var geoJson = toGeoJSON.kml(kml);
+      //Convert that to a heatmap-friendly format
       var heatMapData = geo.geoJsonToHeat(geoJson, 2);
 
+      //Change map bounds
       map.fitBounds(geo.getBounds(heatMapData), {padding: L.point(30, 30)});
+      //Render the heat layer!
       geo.genHeatLayer(heatMapData).addTo(map);
 
       //Hide overlay and expose the map
       drop.style.display = 'none';
 
-    } catch (error) {
+    } catch (error) { //KML file corrupted or wrongly formatted
       loader.style.display = 'none';
       console.log('ERROR', error);
       alert('Something went wrong. The filename should be something like "history-12-31-1969.kml". Did you use the right one?');
@@ -52,18 +59,20 @@ document.addEventListener('DOMContentLoaded', function() {
   //Define handler functions
   var handleDrop = function (event) {
     event.preventDefault();
+    //Grab the file
     var rawFile = event.dataTransfer.files[0];
     var fileName = rawFile.name;
 
+    //Make sure it's a kml
     if (fileName.slice(fileName.length-3, fileName.length) === "kml") {
+      //Do the thing!
       reader.readAsText(rawFile); 
     } else {
       loader.style.display = 'none';
       alert('You dragged the wrong file. This app only supports files that end with ".kml"');
     }
   };
-  //This is necessary for our drop function to work correctly. Come on, HTML5.
-  //Really?
+  //This is necessary for our drop function to work correctly. Boo, HTML5.
   var handleDragOver = function (event) {
     if (event.originalEvent) {
       event = event.originalEvent;
