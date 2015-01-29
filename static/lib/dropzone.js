@@ -16,8 +16,8 @@
     addEventHandler(drop, 'dragover', onDragover);
     addEventHandler(drop, 'dragenter', cancel);
     addEventHandler(drop, 'drop', function (e) {
-      console.log('DROPPED');
       e.preventDefault();
+      document.getElementById('loader').style.display = 'block';
       var rawFile = e.dataTransfer.files[0];
       reader.readAsText(rawFile);
     });
