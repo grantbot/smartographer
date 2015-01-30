@@ -3,3 +3,4 @@ LocationHistory.json
 *.kml
 static/bower_components/*
 static/dist/*
+*.pyc
