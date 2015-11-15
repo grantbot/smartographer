@@ -2,3 +2,4 @@ venv
 LocationHistory.json
 *.kml
 *.pyc
+.DS_Store
